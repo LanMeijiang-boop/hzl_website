@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hzl霸屏官网</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#60a5fa',
+                        accent: '#1d4ed8',
+                        light: '#eff6ff',
+                        dark: '#1e3a8a'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .btn-primary {
+                @apply bg-primary text-white font-medium py-2 px-4 rounded-lg hover:bg-accent transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+            }
+            .btn-secondary {
+                @apply bg-white text-primary border border-primary font-medium py-2 px-4 rounded-lg hover:bg-light transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+            }
+            .input-primary {
+                @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+            }
+            .glass-effect {
+                @apply bg-white bg-opacity-80 backdrop-blur-md;
+            }
+        }
+    </style>
+    <!-- 自定义样式 -->
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        /* 加载动画 */
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #2563eb;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+        
+        /* 自定义动画 */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-in-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .hero-content {
+                padding-top: 6rem;
+                padding-bottom: 3rem;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" href="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/548fe9f895644b0e868939ebdc97eef7~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154251&x-signature=S3T70LWvBjdiDZwOJpMnpa9SWHM%3D" type="image/png">
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/548fe9f895644b0e868939ebdc97eef7~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154251&x-signature=S3T70LWvBjdiDZwOJpMnpa9SWHM%3D" alt="HZL Logo" class="h-10 w-10">
+                <span class="text-2xl font-bold text-primary">HZL霸屏</span>
+            </div>
+            
+            <!-- 桌面导航菜单 -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-primary transition-colors">首页</a>
+                <a href="#products" class="text-gray-700 hover:text-primary transition-colors">产品介绍</a>
+                <a href="#keygen" class="text-gray-700 hover:text-primary transition-colors">密钥生成</a>
+                <a href="#about" class="text-gray-700 hover:text-primary transition-colors">关于我们</a>
+            </div>
+            
+            <!-- 移动端菜单按钮 -->
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-700 hover:text-primary focus:outline-none">
+                    <i class="fa fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200 animate-fade-in">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#home" class="py-2 text-gray-700 hover:text-primary transition-colors">首页</a>
+                <a href="#products" class="py-2 text-gray-700 hover:text-primary transition-colors">产品介绍</a>
+                <a href="#keygen" class="py-2 text-gray-700 hover:text-primary transition-colors">密钥生成</a>
+                <a href="#about" class="py-2 text-gray-700 hover:text-primary transition-colors">关于我们</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0 hero-content">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-shadow">
+                        HZL霸屏软件
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">
+                        专业的屏幕覆盖解决方案，为您提供高效、稳定的屏幕管理工具。
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#products" class="btn-primary text-center">
+                            <i class="fa fa-th-large mr-2"></i>浏览产品
+                        </a>
+                        <a href="#keygen" class="btn-secondary text-center">
+                            <i class="fa fa-key mr-2"></i>生成密钥
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/548fe9f895644b0e868939ebdc97eef7~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154251&x-signature=S3T70LWvBjdiDZwOJpMnpa9SWHM%3D" alt="HZL霸屏软件" class="w-64 h-64 object-contain animate-pulse">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品介绍区域 -->
+    <section id="products" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">产品系列</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    我们提供多种型号的霸屏软件，满足不同场景和需求。每款产品都经过精心设计，确保稳定性和高效性。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 产品1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center p-4">
+                        <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/0e7b2d0b7ab04a108adb54b2e1efea59~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154261&x-signature=XgIn7DoYIYaifBrMdpmF6dUGXsI%3D" alt="HZL_001" class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">HZL_001</h3>
+                        <p class="text-gray-600 mb-4">基础版霸屏软件，提供简单可靠的屏幕覆盖功能，适用于基本展示需求。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">产品ID: 2@5!0#1$B%P^R&J*</span>
+                            <button class="text-primary hover:text-accent transition-colors" onclick="copyProductId('2@5!0#1$B%P^R&J*')">
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 产品2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center p-4">
+                        <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/a59389017a154956a3b0828db71c5e0b~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154272&x-signature=ZwG2GcGMxuBsRvWOb4gU0irTeyY%3D" alt="HZL_002" class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">HZL_002</h3>
+                        <p class="text-gray-600 mb-4">标准版霸屏软件，增加了更多自定义选项和动画效果，满足中等复杂度需求。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">产品ID: 2@6!0#1$B%P^R&J*</span>
+                            <button class="text-primary hover:text-accent transition-colors" onclick="copyProductId('2@6!0#1$B%P^R&J*')">
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 产品3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center p-4">
+                        <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/5e08c93d2fd04661bdfd9a73c8ce41e3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154282&x-signature=KcvRG0QFpLOO91U5g%2BtxXDeQYz4%3D" alt="HZL_Air1" class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">HZL_Air1</h3>
+                        <p class="text-gray-600 mb-4">轻量版霸屏软件，占用资源少，启动速度快，适合配置较低的设备使用。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">产品ID: 2@6!0#2$B%P^R&J*</span>
+                            <button class="text-primary hover:text-accent transition-colors" onclick="copyProductId('2@6!0#2$B%P^R&J*')">
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 产品4 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-48 bg-blue-50 flex items-center justify-center p-4">
+                        <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/cfe941ac7dcd4c89a97fbb6530969ad3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154305&x-signature=HoKKPHbUbqXKf35VAb0izCSHJvw%3D" alt="HZL_SP" class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">HZL_SP</h3>
+                        <p class="text-gray-600 mb-4">专业版霸屏软件，提供全面的功能和高级定制选项，满足复杂场景需求。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">产品ID: 2@7!0#1$B%P^R&J*</span>
+                            <button class="text-primary hover:text-accent transition-colors" onclick="copyProductId('2@7!0#1$B%P^R&J*')">
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 密钥生成区域 -->
+    <section id="keygen" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">密钥生成</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    输入产品ID，生成对应的密钥。请确保输入正确的产品ID以获取有效的密钥。
+                </p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8">
+                <form id="keygen-form" class="space-y-6">
+                    <div>
+                        <label for="product-id" class="block text-gray-700 font-medium mb-2">产品ID</label>
+                        <input 
+                            type="text" 
+                            id="product-id" 
+                            class="input-primary" 
+                            placeholder="请输入产品ID，如：2@5!0#1$B%P^R&J*"
+                            autocomplete="off"
+                        >
+                        <div class="mt-2 text-sm text-gray-500">
+                            <p>可用的产品ID：</p>
+                            <ul class="list-disc list-inside mt-1 space-y-1">
+                                <li>HZL_001: <code>2@5!0#1$B%P^R&J*</code></li>
+                                <li>HZL_002: <code>2@6!0#1$B%P^R&J*</code></li>
+                                <li>HZL_Air1: <code>2@6!0#2$B%P^R&J*</code></li>
+                                <li>HZL_SP: <code>2@7!0#1$B%P^R&J*</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button 
+                            type="submit" 
+                            id="generate-btn" 
+                            class="btn-primary w-full flex items-center justify-center"
+                        >
+                            <span id="btn-text">生成密钥</span>
+                            <div id="btn-loader" class="loader ml-3 hidden"></div>
+                        </button>
+                    </div>
+                    
+                    <div id="result-container" class="hidden">
+                        <label class="block text-gray-700 font-medium mb-2">生成的密钥</label>
+                        <div class="flex">
+                            <input 
+                                type="text" 
+                                id="generated-key" 
+                                class="input-primary rounded-r-none bg-gray-50" 
+                                readonly
+                            >
+                            <button 
+                                type="button" 
+                                id="copy-btn" 
+                                class="bg-primary text-white px-4 rounded-r-lg hover:bg-accent transition-colors"
+                            >
+                                <i class="fa fa-copy"></i>
+                            </button>
+                        </div>
+                        <p id="copy-success" class="mt-2 text-sm text-green-600 hidden">
+                            <i class="fa fa-check"></i> 密钥已复制到剪贴板
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们区域 -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">关于我们</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    我们致力于提供高质量的屏幕覆盖解决方案，帮助用户在各种场景下实现高效的屏幕管理。
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-blue-50 rounded-xl p-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">我们的使命</h3>
+                    <p class="text-gray-600">
+                        我们的使命是开发创新的屏幕管理工具，提高用户的工作效率和展示效果。通过不断的技术创新和产品优化，我们致力于为用户提供最佳的屏幕覆盖解决方案。
+                    </p>
+                </div>
+                
+                <div class="bg-blue-50 rounded-xl p-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">联系我们</h3>
+                    <p class="text-gray-600 mb-4">
+                        如果您有任何问题或建议，请随时联系我们。我们的团队将竭诚为您服务。
+                    </p>
+                    <div class="space-y-2">
+                        <p class="flex items-center">
+                            <i class="fa fa-envelope text-primary mr-2"></i>
+                            <span>contact@hzl-screen.com</span>
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fa fa-phone text-primary mr-2"></i>
+                            <span>+86 123 4567 8901</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/548fe9f895644b0e868939ebdc97eef7~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026022012371739DBB352645A2270C924&rrcfp=f06b921b&x-expires=1774154251&x-signature=S3T70LWvBjdiDZwOJpMnpa9SWHM%3D" alt="HZL Logo" class="h-8 w-8">
+                        <span class="text-xl font-bold">HZL霸屏</span>
+                    </div>
+                    <p class="text-gray-400 mt-2">专业的屏幕覆盖解决方案</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-weixin text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-weibo text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-github text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2024 HZL霸屏软件. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 弹窗提示 -->
+    <div id="toast" class="fixed top-4 right-4 bg-white rounded-lg shadow-lg p-4 max-w-sm transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-start">
+            <div id="toast-icon" class="flex-shrink-0 text-primary mr-3 mt-0.5">
+                <i class="fa fa-info-circle text-xl"></i>
+            </div>
+            <div class="flex-1">
+                <h4 id="toast-title" class="text-sm font-medium text-gray-800">提示</h4>
+                <p id="toast-message" class="text-sm text-gray-600 mt-1">这是一条提示消息</p>
+            </div>
+            <button id="toast-close" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // 预设的产品ID和对应的产品名称
+        const validProductIds = {
+            '2@5!0#1$B%P^R&J*': 'HZL_001',
+            '2@6!0#1$B%P^R&J*': 'HZL_002',
+            '2@6!0#2$B%P^R&J*': 'HZL_Air1',
+            '2@7!0#1$B%P^R&J*': 'HZL_SP'
+        };
+
+        // DOM元素
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const keygenForm = document.getElementById('keygen-form');
+        const productIdInput = document.getElementById('product-id');
+        const generateBtn = document.getElementById('generate-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnLoader = document.getElementById('btn-loader');
+        const resultContainer = document.getElementById('result-container');
+        const generatedKeyInput = document.getElementById('generated-key');
+        const copyBtn = document.getElementById('copy-btn');
+        const copySuccess = document.getElementById('copy-success');
+        const toast = document.getElementById('toast');
+        const toastIcon = document.getElementById('toast-icon');
+        const toastTitle = document.getElementById('toast-title');
+        const toastMessage = document.getElementById('toast-message');
+        const toastClose = document.getElementById('toast-close');
+
+        // 移动端菜单切换
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 移动端菜单项点击后关闭菜单
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 复制产品ID到剪贴板
+        function copyProductId(productId) {
+            navigator.clipboard.writeText(productId)
+                .then(() => {
+                    showToast('成功', `已复制 ${validProductIds[productId]} 的产品ID到剪贴板`, 'success');
+                    // 自动填充到输入框
+                    productIdInput.value = productId;
+                })
+                .catch(err => {
+                    showToast('错误', '复制失败，请手动复制', 'error');
+                    console.error('复制失败:', err);
+                });
+        }
+
+        // 加密算法实现
+        function encryptKey(productId) {
+            let encrypted = '';
+            
+            // 遍历产品ID的每个字符
+            for (let i = 0; i < productId.length; i++) {
+                const char = productId[i];
+                
+                // 处理小写字母 a->b, b->c...z->a
+                if (char >= 'a' && char <= 'z') {
+                    encrypted += String.fromCharCode((char.charCodeAt(0) - 96) % 26 + 97);
+                }
+                // 处理大写字母 A->B, B->C...Z->A
+                else if (char >= 'A' && char <= 'Z') {
+                    encrypted += String.fromCharCode((char.charCodeAt(0) - 64) % 26 + 65);
+                }
+                // 处理数字 1->2, 2->3...9->0, 0->1
+                else if (char >= '0' && char <= '9') {
+                    encrypted += ((parseInt(char) + 1) % 10).toString();
+                }
+                // 处理特殊字符
+                else if ('!@#$%^&*'.includes(char)) {
+                    const specialChars = '!@#$%^&*';
+                    const index = specialChars.indexOf(char);
+                    encrypted += specialChars[(index + 1) % specialChars.length];
+                }
+                // 其他字符保持不变
+                else {
+                    encrypted += char;
+                }
+            }
+            
+            return encrypted;
+        }
+
+        // 显示提示弹窗
+        function showToast(title, message, type = 'info') {
+            // 设置图标和颜色
+            if (type === 'success') {
+                toastIcon.innerHTML = '<i class="fa fa-check-circle text-green-500 text-xl"></i>';
+            } else if (type === 'error') {
+                toastIcon.innerHTML = '<i class="fa fa-exclamation-circle text-red-500 text-xl"></i>';
+            } else {
+                toastIcon.innerHTML = '<i class="fa fa-info-circle text-primary text-xl"></i>';
+            }
+            
+            // 设置标题和消息
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            
+            // 显示弹窗
+            toast.classList.remove('translate-x-full');
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
+
+        // 关闭提示弹窗
+        toastClose.addEventListener('click', () => {
+            toast.classList.add('translate-x-full');
+        });
+
+        // 密钥生成表单提交
+        keygenForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const productId = productIdInput.value.trim();
+            
+            // 检查输入是否为空
+            if (!productId) {
+                showToast('提示', '请输入产品ID', 'info');
+                return;
+            }
+            
+            // 检查产品ID是否有效
+            if (!validProductIds[productId]) {
+                showToast('错误', '输入的产品ID无效，请核对后重新输入', 'error');
+                return;
+            }
+            
+            // 显示加载状态
+            btnText.textContent = '生成中...';
+            btnLoader.classList.remove('hidden');
+            generateBtn.disabled = true;
+            
+            // 模拟生成过程（添加延迟以展示加载效果）
+            setTimeout(() => {
+                // 生成密钥
+                const encryptedKey = encryptKey(productId);
+                
+                // 显示结果
+                generatedKeyInput.value = encryptedKey;
+                resultContainer.classList.remove('hidden');
+                
+                // 恢复按钮状态
+                btnText.textContent = '生成密钥';
+                btnLoader.classList.add('hidden');
+                generateBtn.disabled = false;
+                
+                // 显示成功提示
+                showToast('成功', `已生成 ${validProductIds[productId]} 的密钥`, 'success');
+                
+                // 滚动到结果区域
+                resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 1000);
+        });
+
+        // 复制生成的密钥
+        copyBtn.addEventListener('click', () => {
+            const key = generatedKeyInput.value;
+            
+            if (key) {
+                navigator.clipboard.writeText(key)
+                    .then(() => {
+                        // 显示复制成功提示
+                        copySuccess.classList.remove('hidden');
+                        setTimeout(() => {
+                            copySuccess.classList.add('hidden');
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        showToast('错误', '复制失败，请手动复制', 'error');
+                        console.error('复制失败:', err);
+                    });
+            }
+        });
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
